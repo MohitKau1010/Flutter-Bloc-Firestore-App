@@ -5,15 +5,14 @@ import 'package:fluttersmallproject/bloc/user/user_event.dart';
 import 'package:fluttersmallproject/bloc/user/user_state.dart';
 import 'package:fluttersmallproject/ui/colors/colors.dart';
 
+// ignore: must_be_immutable
 class Dashboard extends StatelessWidget {
   UserBloc _userBloc = UserBloc();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("DashBoard"),//AppLocalizations.of(context).tr('label_dashboard')
-      ),
+      appBar: AppBar(title: Text("Home"),),
       body: Container(
         child: Center(
           child: BlocBuilder(
@@ -26,44 +25,24 @@ class Dashboard extends StatelessWidget {
                       Expanded(
                         child: Column(
                           children: <Widget>[
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text("Welcome",//AppLocalizations.of(context).tr('label_welcome')
-                              style: TextStyle(
-                                  fontSize: 28, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(userState.user.email,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(userState.user.token,
-                                style: TextStyle(
-                                    fontSize: 10, color: accentColor)),
+                            SizedBox(height: 8,),
+                            Text("Welcome", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                            SizedBox(height: 8,),
+                            Text(userState.user.email, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                            SizedBox(height: 8,),
+                            Text(userState.user.token, style: TextStyle(fontSize: 10, color: accentColor)),
                           ],
                         ),
                       ),
                       Column(
                         children: <Widget>[
-                          SizedBox(
-                            height: 16,
-                          ),
-                          RaisedButton(
-                            onPressed: () {
-                              _userBloc.dispatch(Logout(userState.user));
+                          SizedBox(height: 16,),
+                          RaisedButton(onPressed: () {
+                            _userBloc.dispatch(Logout(userState.user));  /// for logout user
                             },
-                            child: Text('label_logout',
-                              style: TextStyle(color: grayColor),
-                            ),
+                            child: Text('label_logout', style: TextStyle(color: grayColor),),
                           ),
-                          SizedBox(
-                            height: 16,
-                          ),
+                          SizedBox(height: 16,),
                         ],
                       )
                     ],

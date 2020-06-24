@@ -22,7 +22,7 @@ class _FirebaseAuthAppState extends State<FirebaseAuthApp> {
   @override
   Widget build(BuildContext context) {
     ///
-    userBloc.dispatch(UserEvent.Check());
+    userBloc.dispatch(UserEvent.Check());   /// for run check event.
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Firebase Sample",
@@ -33,11 +33,11 @@ class _FirebaseAuthAppState extends State<FirebaseAuthApp> {
             ///if user logged in then goto dashboard..
             if (userState is UserLoggedIn) {
               return Dashboard();
-              /// when user has fetching the data form database:---> UserUndefined
+              /// when user has fetching the data form database: ---> UserUndefined
             } else if (userState is UserUndefined) {
-              return Loading();
+              return Splash();
             } else {
-              /// if user has no data then goto login
+              /// if user has no data then goto login.
               return Login();
             }
           }),

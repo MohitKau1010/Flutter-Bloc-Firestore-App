@@ -7,18 +7,18 @@ class UserModel{
     _db = db;
   }
   Future<User> insert(User user) async {
-    user.id = await _db.insert(User.tableName, user.toMap());
+    user.id = await _db.insert(User.tableName, user.toMap());   ///toMap -> for putting value
     return user;
   }
   getUserWithId(int id) async {
     var res = await _db.query(User.tableName,
         where: "${User.columnId} = ?", whereArgs: [id]);
-    return res.isNotEmpty ? User.fromMap(res.first) : null;
+    return res.isNotEmpty ? User.fromMap(res.first) : null;  ///fromMap -> for getting value
   }
 
   getFirstUser() async {
     var res = await _db.query(User.tableName);
-    return res.isNotEmpty ? User.fromMap(res.first) : null;
+    return res.isNotEmpty ? User.fromMap(res.first) : null; ///fromMap -> for getting value
   }
 
   Future<int> delete(int id) async {

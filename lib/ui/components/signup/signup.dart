@@ -20,25 +20,26 @@ class _SignupState extends State<Signup> {
       TextEditingController(text: "");
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   UserBloc _userBloc = UserBloc();
 
+  /// new user sugnup
   void _signUpUser(BuildContext context) async {
     try {
-      final FirebaseUser firebaseUser =
-          await _auth.createUserWithEmailAndPassword(
+      /// hit firebase to create user
+      final FirebaseUser firebaseUser = await _auth.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
+      /// getting the resoponse form firebase.
       if (firebaseUser != null) {
-        User user = User(
-            token: await firebaseUser.getIdToken(), email: firebaseUser.email);
-        _userBloc.dispatch(Login(user));
+        User user = User(token: await firebaseUser.getIdToken(), email: firebaseUser.email);
+        _userBloc.dispatch(Login(user)); ///dispatch ---> next
         NavigationHelper.pop(context);
       }
     } on PlatformException catch (e) {
       if ("ERROR_EMAIL_ALREADY_IN_USE" == e.code) {
-        final snackBar =
-            SnackBar(content: Text('message_email_already_in_use'));
+        final snackBar = SnackBar(content: Text('message_email_already_in_use'));
         _scaffoldKey.currentState.showSnackBar(snackBar);
       } else {
         final snackBar = SnackBar(content: Text('message_could_not_signup  +++ ${e.code}'));
@@ -52,7 +53,7 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('label_signup'),
+        title: Text('Signup'),
       ),
       body: Container(
         child: Column(children: <Widget>[
@@ -71,10 +72,11 @@ class _SignupState extends State<Signup> {
                           TextFormField(
                             controller: _emailController,
                             decoration:
-                                InputDecoration(labelText: "label_email"),
+                                InputDecoration(labelText: "Email"),
+                            // ignore: missing_return
                             validator: (String value) {
                               if (value.isEmpty) {
-                                return "message_enter_email";
+                                return "email is empty";
                               }
                             },
                           ),
@@ -82,11 +84,11 @@ class _SignupState extends State<Signup> {
                             obscureText: true,
                             controller: _passwordController,
                             decoration:
-                                InputDecoration(labelText: "label_password"),
+                                InputDecoration(labelText: "Password"),
                             // ignore: missing_return
                             validator: (String value) {
                               if (value.isEmpty) {
-                                return "message_enter_password";
+                                return "password is empty";
                               }
                             },
                           ),
@@ -99,8 +101,7 @@ class _SignupState extends State<Signup> {
                                   _signUpUser(context);
                                 }
                               },
-                              child: Text("label_signup",
-                                  style: TextStyle(color: grayColor)),
+                              child: Text("Signup", style: TextStyle(color: grayColor)),
                             ),
                           ),
                         ],

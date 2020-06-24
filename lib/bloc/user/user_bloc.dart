@@ -9,6 +9,7 @@ class UserBloc extends Bloc<UserEvent,UserState>{
 
   //Create Singleton
   static final UserBloc _userBloc = new UserBloc._internal();
+
   factory UserBloc() {
     return _userBloc;
   }
@@ -27,14 +28,14 @@ class UserBloc extends Bloc<UserEvent,UserState>{
   Stream<UserState> mapEventToState(UserEvent event) async* {
 
     /**
-     *
      * this is listner type funtion that that is used for
      */
 
     ///Check is
     if(event is Check){
       Database db = await DBProvider().database;
-      User userWithID = await UserModel(db).getFirstUser();
+      ///
+      User userWithID = await UserModel(db).getFirstUser();/// this checks
       if(userWithID == null){
         yield UserLoggedOut(); ///return userstate.
       }else{
@@ -46,9 +47,10 @@ class UserBloc extends Bloc<UserEvent,UserState>{
         Database db = await DBProvider().database;
         /// User is Model...
         /// UserModel is for Sqlite...
-        User userWithID = await UserModel(db).insert(event.user); /// insert onto local
+        User userWithID = await UserModel(db).insert(event.user); /// insert onto local db
+        print("UserBloc Step 2: Insert DB ----> $userWithID");
         if(userWithID != null){
-          yield UserLoggedIn(userWithID); /// return userstate.
+          yield UserLoggedIn(userWithID); ///return userstate.
         }else{
           yield UserLoggedOut(); /// return userstate.
         }
@@ -60,6 +62,7 @@ class UserBloc extends Bloc<UserEvent,UserState>{
       try{
         Database db = await DBProvider().database;
         int deletedCount =  await UserModel(db).delete(event.user.id);
+        print("UserBloc Step 2: Logout ----> $deletedCount"); //1
         yield UserLoggedOut();
       }catch(error){
         //ToDo: Write log
